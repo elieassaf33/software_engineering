@@ -6,8 +6,10 @@ import os
 TASKS_FILE = "tasks.json"
 
 
+# -----------------------------
+# Persistence Layer
+# -----------------------------
 def load_tasks():
-    
     if not os.path.exists(TASKS_FILE):
         return []
     with open(TASKS_FILE, "r") as f:
@@ -19,12 +21,46 @@ def save_tasks(tasks):
         json.dump(tasks, f, indent=4)
 
 
+# -----------------------------
+# Task Management Subsystem
+# -----------------------------
+class TaskManager:
+    def __init__(self):
+        self.tasks = load_tasks()
+
+    def get_tasks(self):
+        return self.tasks
+
+    def add_task(self, name, tool, context, tags):
+        new_task = {
+            "name": name,
+            "tool": tool,
+            "context": context,
+            "tags": tags,
+            "completed": False
+        }
+        self.tasks.append(new_task)
+        save_tasks(self.tasks)
+
+    def complete_task(self, index):
+        self.tasks[index]["completed"] = True
+        save_tasks(self.tasks)
+
+    def delete_task(self, index):
+        del self.tasks[index]
+        save_tasks(self.tasks)
+
+
+# -----------------------------
+# UI Subsystem
+# -----------------------------
 class TaskManagerApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Developer Task Manager")
 
-        self.tasks = load_tasks()
+        # Use the TaskManager subsystem
+        self.manager = TaskManager()
 
         # Main frame
         self.frame = tk.Frame(root)
@@ -65,7 +101,7 @@ class TaskManagerApp:
 
     def refresh_task_list(self):
         self.task_listbox.delete(0, tk.END)
-        for task in self.tasks:
+        for task in self.manager.get_tasks():
             status = "✔" if task["completed"] else "✖"
             self.task_listbox.insert(tk.END, f"{status} {task['name']}")
 
@@ -79,16 +115,7 @@ class TaskManagerApp:
             messagebox.showwarning("Missing Data", "Task name is required.")
             return
 
-        new_task = {
-            "name": name,
-            "tool": tool,
-            "context": context,
-            "tags": tags,
-            "completed": False
-        }
-
-        self.tasks.append(new_task)
-        save_tasks(self.tasks)
+        self.manager.add_task(name, tool, context, tags)
         self.refresh_task_list()
 
         self.entry_name.delete(0, tk.END)
@@ -103,8 +130,7 @@ class TaskManagerApp:
             return
 
         index = selection[0]
-        self.tasks[index]["completed"] = True
-        save_tasks(self.tasks)
+        self.manager.complete_task(index)
         self.refresh_task_list()
         self.show_task_details()
 
@@ -120,8 +146,7 @@ class TaskManagerApp:
         if not confirm:
             return
 
-        del self.tasks[index]
-        save_tasks(self.tasks)
+        self.manager.delete_task(index)
         self.refresh_task_list()
 
         self.details_box.config(state="normal")
@@ -134,7 +159,7 @@ class TaskManagerApp:
             return
 
         index = selection[0]
-        task = self.tasks[index]
+        task = self.manager.get_tasks()[index]
 
         details = (
             f"Name: {task['name']}\n"
