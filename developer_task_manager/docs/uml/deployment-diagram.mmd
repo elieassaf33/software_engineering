@@ -1,0 +1,15 @@
+flowchart TB
+    subgraph Workstation[Developer workstation]
+        subgraph Python[Python 3.10+ process]
+            Main[main module]
+            Tk[Tkinter GUI]
+            App[Domain / application / persistence]
+        end
+        FS[(Local filesystem<br/>tasks.json)]
+        Display[Desktop display / input]
+    end
+    Main --> Tk
+    Main --> App
+    Tk <--> Display
+    App <--> FS
+

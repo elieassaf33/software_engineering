@@ -1,0 +1,41 @@
+classDiagram
+    class ContextSnapshot {
+        +str project_name
+        +str tool
+        +str git_branch
+        +tuple file_paths
+        +str last_command
+        +str progress_note
+        +str next_action
+        +to_dict() dict
+        +from_dict(data) ContextSnapshot
+        +searchable_text() str
+    }
+    class Task {
+        +str title
+        +ContextSnapshot context
+        +str notes
+        +tuple tags
+        +TaskStatus status
+        +str id
+        +datetime created_at
+        +datetime modified_at
+        +edit(title, context, notes, tags)
+        +change_status(new_status)
+        +to_dict() dict
+        +from_dict(data) Task
+        +matches(query) bool
+    }
+    class TaskStatus {
+        <<enumeration>>
+        PLANNED
+        IN_PROGRESS
+        PAUSED
+        COMPLETED
+    }
+    class ValidationError
+    class InvalidStatusTransition
+    Task *-- ContextSnapshot
+    Task --> TaskStatus
+    InvalidStatusTransition --|> ValidationError
+

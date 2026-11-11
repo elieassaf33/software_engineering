@@ -1,0 +1,5 @@
+flowchart LR
+    task["task: Task<br/>id = 982f...<br/>title = Fix expression parser<br/>status = Paused<br/>tags = parser, urgent<br/>notes = Preserve grammar"]
+    context["context: ContextSnapshot<br/>project_name = Compiler<br/>tool = PyCharm<br/>git_branch = feature/parser<br/>file_paths = src/parser.py<br/>last_command = pytest tests/test_parser.py<br/>progress_note = precedence test failing<br/>next_action = inspect operator binding"]
+    task -->|context| context
+

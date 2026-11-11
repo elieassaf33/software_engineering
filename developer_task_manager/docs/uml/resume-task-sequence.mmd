@@ -1,0 +1,18 @@
+sequenceDiagram
+    actor Developer
+    participant UI as TaskManagerApp
+    participant Service as TaskService
+    participant Task
+    Developer->>UI: select task
+    UI->>Service: get_task(id)
+    Service-->>UI: Task
+    UI->>UI: _format_resume(task)
+    Developer->>UI: click Resume Context
+    UI->>UI: select resume tab
+    opt Completed task is reopened
+        Developer->>UI: click Reopen
+        UI->>Service: reopen_task(id)
+        Service->>Task: change_status(In Progress)
+        Service-->>UI: updated Task
+    end
+

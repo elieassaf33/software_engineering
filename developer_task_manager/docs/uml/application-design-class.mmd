@@ -1,0 +1,26 @@
+classDiagram
+    class TaskService {
+        -TaskRepository _repository
+        -list _tasks
+        +list_tasks(query, status, tag) list
+        +get_task(task_id) Task
+        +create_task(...) Task
+        +edit_task(...) Task
+        +change_status(task_id, status) Task
+        +reopen_task(task_id) Task
+        +delete_task(task_id)
+        +available_tags() list
+    }
+    class TaskRepository {
+        <<interface>>
+        +load_all() list
+        +save_all(tasks)
+    }
+    class Task
+    class ContextSnapshot
+    class TaskNotFoundError
+    class DuplicateTaskIdError
+    TaskService --> TaskRepository
+    TaskService --> Task
+    TaskService --> ContextSnapshot
+

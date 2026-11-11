@@ -1,0 +1,17 @@
+flowchart TB
+    Main[developer_task_manager.main]
+    UI[ui]
+    Application[application]
+    Domain[domain]
+    Persistence[persistence]
+    Data[(data/tasks.json)]
+    Main --> UI
+    Main --> Application
+    Main --> Persistence
+    UI --> Application
+    UI --> Domain
+    Application --> Domain
+    Application --> Persistence
+    Persistence --> Domain
+    Persistence --> Data
+

@@ -1,0 +1,16 @@
+sequenceDiagram
+    actor Developer
+    participant UI as TaskManagerApp
+    participant Service as TaskService
+    participant Domain as Task
+    participant Repo as TaskRepository
+    Developer->>UI: enter context and click Create
+    UI->>UI: _context_from_form()
+    UI->>Service: create_task(...)
+    Service->>Domain: Task(...)
+    Domain-->>Service: validated task
+    Service->>Repo: save_all(tasks)
+    Repo-->>Service: saved
+    Service-->>UI: task
+    UI->>UI: refresh_tasks(task.id)
+

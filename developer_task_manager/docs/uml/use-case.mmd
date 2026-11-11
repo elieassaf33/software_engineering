@@ -1,0 +1,22 @@
+flowchart LR
+    Developer([Developer])
+    subgraph System[Developer Context Task Manager]
+        Create([Create task])
+        List([View tasks])
+        Context([View complete context])
+        Edit([Edit task])
+        Status([Change status])
+        Reopen([Reopen completed task])
+        Delete([Delete task])
+        Search([Search tasks])
+        Filter([Filter by status/tag])
+        Resume([Resume context])
+        Save([Save automatically])
+    end
+    Developer --> Create & List & Context & Edit & Status & Reopen & Delete & Search & Filter & Resume
+    Create -. includes .-> Save
+    Edit -. includes .-> Save
+    Status -. includes .-> Save
+    Reopen -. includes .-> Status
+    Delete -. includes .-> Save
+

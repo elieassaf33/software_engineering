@@ -1,0 +1,10 @@
+stateDiagram-v2
+    [*] --> Planned
+    Planned --> InProgress: start
+    Planned --> Completed: complete directly
+    InProgress --> Paused: pause
+    InProgress --> Completed: complete
+    Paused --> InProgress: resume
+    Paused --> Completed: complete
+    Completed --> InProgress: reopen
+

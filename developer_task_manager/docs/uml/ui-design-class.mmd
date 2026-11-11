@@ -1,0 +1,26 @@
+classDiagram
+    class TaskManagerApp {
+        +Tk root
+        +TaskService service
+        +list visible_task_ids
+        +str selected_task_id
+        +create_task()
+        +save_edits()
+        +change_selected_status()
+        +reopen_selected()
+        +delete_selected()
+        +refresh_tasks(select_id)
+        +clear_filters()
+        +clear_form()
+        +show_resume_context()
+        -_context_from_form() ContextSnapshot
+        -_load_selected()
+        -_format_resume(task) str
+    }
+    class TaskService
+    class ContextSnapshot
+    class Task
+    TaskManagerApp --> TaskService
+    TaskManagerApp --> ContextSnapshot
+    TaskManagerApp --> Task
+

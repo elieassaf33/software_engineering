@@ -1,0 +1,18 @@
+flowchart TD
+    Start([Launch]) --> Resolve[Resolve application-relative data path]
+    Resolve --> Load[Load JSON through repository]
+    Load --> Valid{Valid data?}
+    Valid -- No --> Error[Show error; leave file unchanged] --> End([Exit])
+    Valid -- Yes --> UI[Display task list]
+    UI --> Action{User action}
+    Action -->|Search/filter/select| Display[Refresh list or context]
+    Display --> Action
+    Action -->|Create/edit/status/reopen/delete| Validate[Validate domain operation]
+    Validate --> OK{Valid?}
+    OK -- No --> Message[Show understandable error] --> Action
+    OK -- Yes --> Save[Atomically save collection]
+    Save --> Saved{Save succeeded?}
+    Saved -- No --> Rollback[Roll back in-memory change and show error] --> Action
+    Saved -- Yes --> UI
+    Action -->|Close window| End
+

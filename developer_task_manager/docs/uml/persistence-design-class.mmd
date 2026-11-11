@@ -1,0 +1,18 @@
+classDiagram
+    class TaskRepository {
+        <<abstract>>
+        +load_all()* list
+        +save_all(tasks)*
+    }
+    class JsonTaskRepository {
+        +Path path
+        +load_all() list
+        +save_all(tasks)
+        -_decode_task(item) Task
+    }
+    class RepositoryError
+    class Task
+    JsonTaskRepository --|> TaskRepository
+    JsonTaskRepository --> Task
+    JsonTaskRepository ..> RepositoryError
+

@@ -1,0 +1,14 @@
+flowchart LR
+    Tk[Tkinter widgets<br/>TaskManagerApp]
+    UseCases[Use cases<br/>TaskService]
+    Model[Domain model<br/>Task + ContextSnapshot]
+    Port[[TaskRepository]]
+    Adapter[JsonTaskRepository]
+    JSON[(UTF-8 JSON file)]
+    Tk --> UseCases
+    UseCases --> Model
+    UseCases --> Port
+    Adapter -. implements .-> Port
+    Adapter --> Model
+    Adapter --> JSON
+

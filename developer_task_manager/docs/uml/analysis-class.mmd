@@ -1,0 +1,37 @@
+classDiagram
+    class Task {
+        id: str
+        title: str
+        notes: str
+        tags: tuple
+        status: TaskStatus
+        created_at: datetime
+        modified_at: datetime
+        edit()
+        change_status()
+        matches()
+    }
+    class ContextSnapshot {
+        project_name: str
+        tool: str
+        git_branch: str
+        file_paths: tuple
+        last_command: str
+        progress_note: str
+        next_action: str
+    }
+    class TaskStatus {
+        PLANNED
+        IN_PROGRESS
+        PAUSED
+        COMPLETED
+    }
+    class TaskService
+    class TaskRepository
+    class TaskManagerApp
+    Task *-- ContextSnapshot
+    Task --> TaskStatus
+    TaskService --> Task
+    TaskService --> TaskRepository
+    TaskManagerApp --> TaskService
+
